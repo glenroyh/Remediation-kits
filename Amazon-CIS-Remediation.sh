@@ -200,37 +200,39 @@ if [ "$PROFILE" = "Level 1" ] || [ "$PROFILE" = "Level 2" ]; then
   echo \*\*\*\* Ensure\ permissions\ on\ /etc/issue.net\ are\ configured
   chmod -t,u+r+w-x-s,g+r-w-x-s,o+r-w-x /etc/issue.net
 
-  # Ensure chargen services are not enabled
+#### Services ####
+
+  # Ensure chargen services are not enabled (2.1.1)
   echo
   echo \*\*\*\* Ensure\ chargen\ services\ are\ not\ enabled
   chkconfig chargen off
   echo /etc/inetd.conf and /etc/inetd.d/* unmodified
 
-  # Ensure daytime services are not enabled
+  # Ensure daytime services are not enabled (2.1.2)
   echo
   echo \*\*\*\* Ensure\ daytime\ services\ are\ not\ enabled
   chkconfig daytime off
   echo /etc/inetd.conf and /etc/inetd.d/* unmodified
 
-  # Ensure discard services are not enabled
+  # Ensure discard services are not enabled (2.1.3)
   echo
   echo \*\*\*\* Ensure\ discard\ services\ are\ not\ enabled
   chkconfig discard off
   echo /etc/inetd.conf and /etc/inetd.d/* unmodified
 
-  # Ensure echo services are not enabled
+  # Ensure echo services are not enabled (2.1.4)
   echo
   echo \*\*\*\* Ensure\ echo\ services\ are\ not\ enabled
   chkconfig echo off
   echo /etc/inetd.conf and /etc/inetd.d/* unmodified
 
-  # Ensure time services are not enabled
+  # Ensure time services are not enabled (2.1.5)
   echo
   echo \*\*\*\* Ensure\ time\ services\ are\ not\ enabled
   chkconfig time off
   echo /etc/inetd.conf and /etc/inetd.d/* unmodified
 
-  # Ensure rsh server is not enabled
+  # Ensure rsh server is not enabled (2.2.17)
   echo
   echo \*\*\*\* Ensure\ rsh\ server\ is\ not\ enabled
   chkconfig rsh off
@@ -240,41 +242,41 @@ if [ "$PROFILE" = "Level 1" ] || [ "$PROFILE" = "Level 2" ]; then
   chkconfig resec off
   echo /etc/inetd.conf and /etc/inetd.d/* unmodified
 
-  # Ensure talk server is not enabled
+  # Ensure talk server is not enabled (2.2.21)
   echo
   echo \*\*\*\* Ensure\ talk\ server\ is\ not\ enabled
   chkconfig talk off
   echo /etc/inetd.conf and /etc/inetd.d/* unmodified
 
-  # Ensure telnet server is not enabled
+  # Ensure telnet server is not enabled (2.2.18)
   echo
   echo \*\*\*\* Ensure\ telnet\ server\ is\ not\ enabled
   chkconfig telnet off
   echo /etc/inetd.conf and /etc/inetd.d/* unmodified
 
-  # Ensure tftp server is not enabled
+  # Ensure tftp server is not enabled (2.1.6) & (2.2.19)
   echo
   echo \*\*\*\* Ensure\ tftp\ server\ is\ not\ enabled
   chkconfig tftp off
   echo /etc/inetd.conf and /etc/inetd.d/* unmodified
 
-  # Ensure rsync service is not enabled
+  # Ensure rsync service is not enabled (2.2.20)
   echo
   echo \*\*\*\* Ensure\ rsync\ service\ is\ not\ enabled
   chkconfig rsync off
   echo /etc/inetd.conf and /etc/inetd.d/* unmodified
 
-  # Ensure xinetd is not enabled
+  # Ensure xinetd is not enabled (2.1.7)
   echo
   echo \*\*\*\* Ensure\ xinetd\ is\ not\ enabled
   chkconfig xinetd off
 
-  # Ensure time synchronization is in use
+  # Ensure time synchronization is in use (2.2.1.1)
   echo
   echo \*\*\*\* Ensure\ time\ synchronization\ is\ in\ use
   rpm -q ntp || rpm -q chrony || yum -y install ntp
 
-  # Ensure ntp is configured
+  # Ensure ntp is configured (2.2.1.2)
   echo
   echo \*\*\*\* Ensure\ ntp\ is\ configured
   if rpm -q ntp >/dev/null; then
@@ -284,7 +286,7 @@ if [ "$PROFILE" = "Level 1" ] || [ "$PROFILE" = "Level 2" ]; then
     echo Ensure ntp is configured - server not configured.
   fi
 
-  # Ensure chrony is configured
+  # Ensure chrony is configured (2.2.1.3)
   echo
   echo \*\*\*\* Ensure\ chrony\ is\ configured
   if rpm -q chrony >/dev/null; then
@@ -292,32 +294,32 @@ if [ "$PROFILE" = "Level 1" ] || [ "$PROFILE" = "Level 2" ]; then
     echo Ensure chrony is configured - server not configured.
   fi
 
-  # Ensure X Window System is not installed
+  # Ensure X Window System is not installed (2.2.2)
   echo
   echo \*\*\*\* Ensure\ X\ Window\ System\ is\ not\ installed
   yum -y remove xorg-x11*
 
-  # Ensure Avahi Server is not enabled
+  # Ensure Avahi Server is not enabled (2.2.3)
   echo
   echo \*\*\*\* Ensure\ Avahi\ Server\ is\ not\ enabled
   chkconfig avahi-daemon off
 
-  # Ensure CUPS is not enabled
+  # Ensure CUPS is not enabled (2.2.4)
   echo
   echo \*\*\*\* Ensure\ CUPS\ is\ not\ enabled
   chkconfig cups off
 
-  # Ensure DHCP Server is not enabled
+  # Ensure DHCP Server is not enabled (2.2.5)
   echo
   echo \*\*\*\* Ensure\ DHCP\ Server\ is\ not\ enabled
   chkconfig dhcpd off
 
-  # Ensure LDAP server is not enabled
+  # Ensure LDAP server is not enabled (2.2.6)
   echo
   echo \*\*\*\* Ensure\ LDAP\ server\ is\ not\ enabled
   chkconfig slapd off
 
-  # Ensure NFS and RPC are not enabled
+  # Ensure NFS and RPC are not enabled (2.2.7)
   echo
   echo \*\*\*\* Ensure\ NFS\ and\ RPC\ are\ not\ enabled
   chkconfig nfs off
@@ -325,72 +327,72 @@ if [ "$PROFILE" = "Level 1" ] || [ "$PROFILE" = "Level 2" ]; then
   chkconfig rpcbind off
   service rpcbind stop
 
-  # Ensure DNS Server is not enabled
+  # Ensure DNS Server is not enabled (2.2.8)
   echo
   echo \*\*\*\* Ensure\ DNS\ Server\ is\ not\ enabled
   chkconfig named off
 
-  # Ensure FTP Server is not enabled
+  # Ensure FTP Server is not enabled (2.2.9)
   echo
   echo \*\*\*\* Ensure\ FTP\ Server\ is\ not\ enabled
   chkconfig vsftpd off
 
-  # Ensure HTTP server is not enabled
+  # Ensure HTTP server is not enabled (2.2.10)
   echo
   echo \*\*\*\* Ensure\ HTTP\ server\ is\ not\ enabled
   chkconfig htttpd off
 
-  # Ensure IMAP and POP3 server is not enabled
+  # Ensure IMAP and POP3 server is not enabled (2.2.11)
   echo
   echo \*\*\*\* Ensure\ IMAP\ and\ POP3\ server\ is\ not\ enabled
   chkconfig dovecot off
 
-  # Ensure Samba is not enabled
+  # Ensure Samba is not enabled (2.2.12)
   echo
   echo \*\*\*\* Ensure\ Samba\ is\ not\ enabled
   chkconfig smb off
 
-  # Ensure HTTP Proxy Server is not enabled
+  # Ensure HTTP Proxy Server is not enabled (2.2.13)
   echo
   echo \*\*\*\* Ensure\ HTTP\ Proxy\ Server\ is\ not\ enabled
   chkconfig squid off
 
-  # Ensure SNMP Server is not enabled
+  # Ensure SNMP Server is not enabled (2.2.14)
   echo
   echo \*\*\*\* Ensure\ SNMP\ Server\ is\ not\ enabled
   chkconfig snmpd off
 
-  # Ensure mail transfer agent is configured for local-only mode
+  # Ensure mail transfer agent is configured for local-only mode (2.2.15)
   echo
   echo \*\*\*\* Ensure\ mail\ transfer\ agent\ is\ configured\ for\ local-only\ mode
   echo Ensure\ mail\ transfer\ agent\ is\ configured\ for\ local-only\ mode Linux custom object not configured.
 
-  # Ensure NIS Server is not enabled
+  # Ensure NIS Server is not enabled (2.2.16)
   echo
   echo \*\*\*\* Ensure\ NIS\ Server\ is\ not\ enabled
   chkconfig ypserv off
 
-  # Ensure NIS Client is not installed
+  # Ensure NIS Client is not installed (2.3.1)
   echo
   echo \*\*\*\* Ensure\ NIS\ Client\ is\ not\ installed
   rpm -q ypbind && yum -y remove ypbind
 
-  # Ensure rsh client is not installed
+  # Ensure rsh client is not installed (2.3.2)
   echo
   echo \*\*\*\* Ensure\ rsh\ client\ is\ not\ installed
   rpm -q rsh && yum -y remove rsh
 
-  # Ensure talk client is not installed
+  # Ensure talk client is not installed (2.3.3)
   echo
   echo \*\*\*\* Ensure\ talk\ client\ is\ not\ installed
   rpm -q talk && yum -y remove talk
 
-  # Ensure telnet client is not installed
+  # Ensure telnet client is not installed (2.3.4)
   echo
   echo \*\*\*\* Ensure\ telnet\ client\ is\ not\ installed
   rpm -q telnet && yum -y remove telnet
 
-  # Ensure LDAP client is not installed
+  # Ensure LDAP client is not installed (2.3.5)
   echo
   echo \*\*\*\* Ensure\ LDAP\ client\ is\ not\ installed
   rpm -q openldap-clients && yum -y remove openldap-clients
