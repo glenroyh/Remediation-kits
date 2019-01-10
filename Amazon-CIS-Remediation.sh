@@ -397,138 +397,141 @@ if [ "$PROFILE" = "Level 1" ] || [ "$PROFILE" = "Level 2" ]; then
   echo \*\*\*\* Ensure\ LDAP\ client\ is\ not\ installed
   rpm -q openldap-clients && yum -y remove openldap-clients
 
-  # Ensure IP forwarding is disabled
+  #### Network Configuration ####
+
+  # Ensure IP forwarding is disabled (3.1.1)
   echo
   echo \*\*\*\* Ensure\ IP\ forwarding\ is\ disabled
   egrep -q "^(\s*)net.ipv4.ip_forward\s*=\s*\S+(\s*#.*)?\s*$" /etc/sysctl.conf && sed -ri "s/^(\s*)net.ipv4.ip_forward\s*=\s*\S+(\s*#.*)?\s*$/\1net.ipv4.ip_forward = 0\2/" /etc/sysctl.conf || echo "net.ipv4.ip_forward = 0" >> /etc/sysctl.conf
 
-  # Ensure packet redirect sending is disabled
+  # Ensure packet redirect sending is disabled (3.1.2)
   echo
   echo \*\*\*\* Ensure\ packet\ redirect\ sending\ is\ disabled
   egrep -q "^(\s*)net.ipv4.conf.all.send_redirects\s*=\s*\S+(\s*#.*)?\s*$" /etc/sysctl.conf && sed -ri "s/^(\s*)net.ipv4.conf.all.send_redirects\s*=\s*\S+(\s*#.*)?\s*$/\1net.ipv4.conf.all.send_redirects = 0\2/" /etc/sysctl.conf || echo "net.ipv4.conf.all.send_redirects = 0" >> /etc/sysctl.conf
   egrep -q "^(\s*)net.ipv4.conf.default.send_redirects\s*=\s*\S+(\s*#.*)?\s*$" /etc/sysctl.conf && sed -ri "s/^(\s*)net.ipv4.conf.default.send_redirects\s*=\s*\S+(\s*#.*)?\s*$/\1net.ipv4.conf.default.send_redirects = 0\2/" /etc/sysctl.conf || echo "net.ipv4.conf.default.send_redirects = 0" >> /etc/sysctl.conf
 
-  # Ensure source routed packets are not accepted
+  # Ensure source routed packets are not accepted (3.2.1)
   echo
   echo \*\*\*\* Ensure\ source\ routed\ packets\ are\ not\ accepted
   egrep -q "^(\s*)net.ipv4.conf.all.accept_source_route\s*=\s*\S+(\s*#.*)?\s*$" /etc/sysctl.conf && sed -ri "s/^(\s*)net.ipv4.conf.all.accept_source_route\s*=\s*\S+(\s*#.*)?\s*$/\1net.ipv4.conf.all.accept_source_route = 0\2/" /etc/sysctl.conf || echo "net.ipv4.conf.all.accept_source_route = 0" >> /etc/sysctl.conf
   egrep -q "^(\s*)net.ipv4.conf.default.accept_source_route\s*=\s*\S+(\s*#.*)?\s*$" /etc/sysctl.conf && sed -ri "s/^(\s*)net.ipv4.conf.default.accept_source_route\s*=\s*\S+(\s*#.*)?\s*$/\1net.ipv4.conf.default.accept_source_route = 0\2/" /etc/sysctl.conf || echo "net.ipv4.conf.default.accept_source_route = 0" >> /etc/sysctl.conf
 
-  # Ensure ICMP redirects are not accepted
+  # Ensure ICMP redirects are not accepted (3.2.2)
   echo
   echo \*\*\*\* Ensure\ ICMP\ redirects\ are\ not\ accepted
   egrep -q "^(\s*)net.ipv4.conf.all.accept_redirects\s*=\s*\S+(\s*#.*)?\s*$" /etc/sysctl.conf && sed -ri "s/^(\s*)net.ipv4.conf.all.accept_redirects\s*=\s*\S+(\s*#.*)?\s*$/\1net.ipv4.conf.all.accept_redirects = 0\2/" /etc/sysctl.conf || echo "net.ipv4.conf.all.accept_redirects = 0" >> /etc/sysctl.conf
   egrep -q "^(\s*)net.ipv4.conf.default.accept_redirects\s*=\s*\S+(\s*#.*)?\s*$" /etc/sysctl.conf && sed -ri "s/^(\s*)net.ipv4.conf.default.accept_redirects\s*=\s*\S+(\s*#.*)?\s*$/\1net.ipv4.conf.default.accept_redirects = 0\2/" /etc/sysctl.conf || echo "net.ipv4.conf.default.accept_redirects = 0" >> /etc/sysctl.conf
 
-  # Ensure secure ICMP redirects are not accepted
+  # Ensure secure ICMP redirects are not accepted (3.2.3)
   echo
   echo \*\*\*\* Ensure\ secure\ ICMP\ redirects\ are\ not\ accepted
   egrep -q "^(\s*)net.ipv4.conf.all.secure_redirects\s*=\s*\S+(\s*#.*)?\s*$" /etc/sysctl.conf && sed -ri "s/^(\s*)net.ipv4.conf.all.secure_redirects\s*=\s*\S+(\s*#.*)?\s*$/\1net.ipv4.conf.all.secure_redirects = 0\2/" /etc/sysctl.conf || echo "net.ipv4.conf.all.secure_redirects = 0" >> /etc/sysctl.conf
   egrep -q "^(\s*)net.ipv4.conf.default.secure_redirects\s*=\s*\S+(\s*#.*)?\s*$" /etc/sysctl.conf && sed -ri "s/^(\s*)net.ipv4.conf.default.secure_redirects\s*=\s*\S+(\s*#.*)?\s*$/\1net.ipv4.conf.default.secure_redirects = 0\2/" /etc/sysctl.conf || echo "net.ipv4.conf.default.secure_redirects = 0" >> /etc/sysctl.conf
 
-  # Ensure suspicious packets are logged
+  # Ensure suspicious packets are logged (3.2.4)
   echo
   echo \*\*\*\* Ensure\ suspicious\ packets\ are\ logged
   egrep -q "^(\s*)net.ipv4.conf.all.log_martians\s*=\s*\S+(\s*#.*)?\s*$" /etc/sysctl.conf && sed -ri "s/^(\s*)net.ipv4.conf.all.log_martians\s*=\s*\S+(\s*#.*)?\s*$/\1net.ipv4.conf.all.log_martians = 1\2/" /etc/sysctl.conf || echo "net.ipv4.conf.all.log_martians = 1" >> /etc/sysctl.conf
   egrep -q "^(\s*)net.ipv4.conf.default.log_martians\s*=\s*\S+(\s*#.*)?\s*$" /etc/sysctl.conf && sed -ri "s/^(\s*)net.ipv4.conf.default.log_martians\s*=\s*\S+(\s*#.*)?\s*$/\1net.ipv4.conf.default.log_martians = 1\2/" /etc/sysctl.conf || echo "net.ipv4.conf.default.log_martians = 1" >> /etc/sysctl.conf
 
-  # Ensure broadcast ICMP requests are ignored
+  # Ensure broadcast ICMP requests are ignored (3.2.5)
   echo
   echo \*\*\*\* Ensure\ broadcast\ ICMP\ requests\ are\ ignored
   egrep -q "^(\s*)net.ipv4.icmp_echo_ignore_broadcasts\s*=\s*\S+(\s*#.*)?\s*$" /etc/sysctl.conf && sed -ri "s/^(\s*)net.ipv4.icmp_echo_ignore_broadcasts\s*=\s*\S+(\s*#.*)?\s*$/\1net.ipv4.icmp_echo_ignore_broadcasts = 1\2/" /etc/sysctl.conf || echo "net.ipv4.icmp_echo_ignore_broadcasts = 1" >> /etc/sysctl.conf
 
-  # Ensure bogus ICMP responses are ignored
+  # Ensure bogus ICMP responses are ignored (3.2.6)
   echo
   echo \*\*\*\* Ensure\ bogus\ ICMP\ responses\ are\ ignored
   egrep -q "^(\s*)net.ipv4.icmp_ignore_bogus_error_responses\s*=\s*\S+(\s*#.*)?\s*$" /etc/sysctl.conf && sed -ri "s/^(\s*)net.ipv4.icmp_ignore_bogus_error_responses\s*=\s*\S+(\s*#.*)?\s*$/\1net.ipv4.icmp_ignore_bogus_error_responses = 1\2/" /etc/sysctl.conf || echo "net.ipv4.icmp_ignore_bogus_error_responses = 1" >> /etc/sysctl.conf
 
-  # Ensure Reverse Path Filtering is enabled
+  # Ensure Reverse Path Filtering is enabled (3.2.7)
   echo
   echo \*\*\*\* Ensure\ Reverse\ Path\ Filtering\ is\ enabled
   egrep -q "^(\s*)net.ipv4.conf.all.rp_filter\s*=\s*\S+(\s*#.*)?\s*$" /etc/sysctl.conf && sed -ri "s/^(\s*)net.ipv4.conf.all.rp_filter\s*=\s*\S+(\s*#.*)?\s*$/\1net.ipv4.conf.all.rp_filter = 1\2/" /etc/sysctl.conf || echo "net.ipv4.conf.all.rp_filter = 1" >> /etc/sysctl.conf
   egrep -q "^(\s*)net.ipv4.conf.default.rp_filter\s*=\s*\S+(\s*#.*)?\s*$" /etc/sysctl.conf && sed -ri "s/^(\s*)net.ipv4.conf.default.rp_filter\s*=\s*\S+(\s*#.*)?\s*$/\1net.ipv4.conf.default.rp_filter = 1\2/" /etc/sysctl.conf || echo "net.ipv4.conf.default.rp_filter = 1" >> /etc/sysctl.conf
 
-  # Ensure TCP SYN Cookies is enabled
+  # Ensure TCP SYN Cookies is enabled (3.2.8)
   echo
   echo \*\*\*\* Ensure\ TCP\ SYN\ Cookies\ is\ enabled
   egrep -q "^(\s*)net.ipv4.tcp_syncookies\s*=\s*\S+(\s*#.*)?\s*$" /etc/sysctl.conf && sed -ri "s/^(\s*)net.ipv4.tcp_syncookies\s*=\s*\S+(\s*#.*)?\s*$/\1net.ipv4.tcp_syncookies = 1\2/" /etc/sysctl.conf || echo "net.ipv4.tcp_syncookies = 1" >> /etc/sysctl.conf
 
-  # Ensure IPv6 router advertisements are not accepted
+  # Ensure IPv6 router advertisements are not accepted (3.3.1)
   echo
   echo \*\*\*\* Ensure\ IPv6\ router\ advertisements\ are\ not\ accepted
   egrep -q "^(\s*)net.ipv6.conf.all.accept_ra\s*=\s*\S+(\s*#.*)?\s*$" /etc/sysctl.conf && sed -ri "s/^(\s*)net.ipv6.conf.all.accept_ra\s*=\s*\S+(\s*#.*)?\s*$/\1net.ipv6.conf.all.accept_ra = 0\2/" /etc/sysctl.conf || echo "net.ipv6.conf.all.accept_ra = 0" >> /etc/sysctl.conf
   egrep -q "^(\s*)net.ipv6.conf.default.accept_ra\s*=\s*\S+(\s*#.*)?\s*$" /etc/sysctl.conf && sed -ri "s/^(\s*)net.ipv6.conf.default.accept_ra\s*=\s*\S+(\s*#.*)?\s*$/\1net.ipv6.conf.default.accept_ra = 0\2/" /etc/sysctl.conf || echo "net.ipv6.conf.default.accept_ra = 0" >> /etc/sysctl.conf
 
-  # Ensure IPv6 redirects are not accepted
+  # Ensure IPv6 redirects are not accepted (3.3.3)
   echo
   echo \*\*\*\* Ensure\ IPv6\ redirects\ are\ not\ accepted
   egrep -q "^(\s*)net.ipv6.conf.all.accept_redirects\s*=\s*\S+(\s*#.*)?\s*$" /etc/sysctl.conf && sed -ri "s/^(\s*)net.ipv6.conf.all.accept_redirects\s*=\s*\S+(\s*#.*)?\s*$/\1net.ipv6.conf.all.accept_redirects = 0\2/" /etc/sysctl.conf || echo "net.ipv6.conf.all.accept_redirects = 0" >> /etc/sysctl.conf
   egrep -q "^(\s*)net.ipv6.conf.default.accept_redirects\s*=\s*\S+(\s*#.*)?\s*$" /etc/sysctl.conf && sed -ri "s/^(\s*)net.ipv6.conf.default.accept_redirects\s*=\s*\S+(\s*#.*)?\s*$/\1net.ipv6.conf.default.accept_redirects = 0\2/" /etc/sysctl.conf || echo "net.ipv6.conf.default.accept_redirects = 0" >> /etc/sysctl.conf
   # Now Reloading the Settings from File /etc/sysctl.conf
   echo \*\*\*\* Reloading\ the\ Settings\ from\ file\ /etc/sysctl.conf
-  # Ensure IPv6 is disabled
+  
+  # Ensure IPv6 is disabled (3.3.3)
   echo
   echo \*\*\*\* Ensure\ IPv6\ is\ disabled
   echo Ensure\ IPv6\ is\ disabled not configured.
 
-  # Ensure TCP Wrappers is installed
+  # Ensure TCP Wrappers is installed (3.4.1)
   echo
   echo \*\*\*\* Ensure\ TCP\ Wrappers\ is\ installed
   rpm -q tcp_wrappers || yum -y install tcp_wrappers
   rpm -q tcp_wrappers-libs || yum -y install tcp_wrappers-libs
 
-  # Ensure /etc/hosts.allow is configured
+  # Ensure /etc/hosts.allow is configured (3.4.2)
   echo
   echo \*\*\*\* Ensure\ /etc/hosts.allow\ is\ configured
   touch /etc/hosts.allow
   egrep -q "^ALL:\s*ALL" /etc/hosts.allow || echo "sshd: ALL" >> /etc/hosts.allow
-
-  # Ensure /etc/hosts.deny is configured
+ 
+  # Ensure /etc/hosts.deny is configured (3.4.3)
   echo
   echo \*\*\*\* Ensure\ /etc/hosts.deny\ is\ configured
   touch  /etc/hosts.deny
   egrep -q "^ALL:\s*ALL" /etc/hosts.deny || echo "ALL: ALL" >> /etc/hosts.deny
 
-  # Ensure permissions on /etc/hosts.allow are configured
+  # Ensure permissions on /etc/hosts.allow are configured (3.4.4)
   echo
   echo \*\*\*\* Ensure\ permissions\ on\ /etc/hosts.allow\ are\ configured
   chmod -t,u+r+w-x-s,g+r-w-x-s,o+r-w-x /etc/hosts.allow
 
-  # Ensure permissions on /etc/hosts.deny are configured
+  # Ensure permissions on /etc/hosts.deny are configured (3.4.5)
   echo
   echo \*\*\*\* Ensure\ permissions\ on\ /etc/hosts.deny\ are\ configured
   chmod -t,u+r+w-x-s,g+r-w-x-s,o+r-w-x /etc/hosts.deny
 
-  # Ensure DCCP is disabled
+  # Ensure DCCP is disabled (3.5.1)
   echo
   echo \*\*\*\* Ensure\ DCCP\ is\ disabled
   modprobe -n -v dccp | grep "^install /bin/true$" || echo "install dccp /bin/true" >> /etc/modprobe.d/CIS.conf
   lsmod | egrep "^dccp\s" && rmmod dccp
 
-  # Ensure SCTP is disabled
+  # Ensure SCTP is disabled (3.5.2)
   echo
   echo \*\*\*\* Ensure\ SCTP\ is\ disabled
   modprobe -n -v sctp | grep "^install /bin/true$" || echo "install sctp /bin/true" >> /etc/modprobe.d/CIS.conf
   lsmod | egrep "^sctp\s" && rmmod sctp
 
-  # Ensure RDS is disabled
+  # Ensure RDS is disabled (3.5.3)
   echo
   echo \*\*\*\* Ensure\ RDS\ is\ disabled
   modprobe -n -v rds | grep "^install /bin/true$" || echo "install rds /bin/true" >> /etc/modprobe.d/CIS.conf
   lsmod | egrep "^rds\s" && rmmod rds
 
-  # Ensure TIPC is disabled
+  # Ensure TIPC is disabled (3.5.4)
   echo
   echo \*\*\*\* Ensure\ TIPC\ is\ disabled
   modprobe -n -v tipc | grep "^install /bin/true$" || echo "install tipc /bin/true" >> /etc/modprobe.d/CIS.conf
   lsmod | egrep "^tipc\s" && rmmod tipc
 
-  # Ensure iptables is installed
+  # Ensure iptables is installed (3.6.1)
   echo
   echo \*\*\*\* Ensure\ iptables\ is\ installed
   rpm -q iptables || yum -y install iptables
 
-  # Ensure default deny firewall policy
+  # Ensure default deny firewall policy (3.6.2)
   echo
   echo \*\*\*\* Ensure\ default\ deny\ firewall\ policy
   # Flush IPtables rules 
@@ -538,14 +541,14 @@ if [ "$PROFILE" = "Level 1" ] || [ "$PROFILE" = "Level 2" ]; then
   iptables -P OUTPUT DROP
   iptables -P FORWARD DROP 
   
-  # Ensure loopback traffic is configured CIS-3.6.3
+  # Ensure loopback traffic is configured (3.6.3)
   echo 
   echo \*\*\*\* Ensure\ loopback\ traffic\ is\ configured
   iptables -A INPUT -i lo -j ACCEPT 
   iptables -A OUTPUT -o lo -j ACCEPT 
   iptables -A INPUT -s 127.0.0.0/8 -j DROP 
 
-  # Ensure outbound and established connections are configured CIS-3.6.4
+  # Ensure outbound and established connections are configured (3.6.4)
   iptables -A OUTPUT -p tcp -m state --state NEW,ESTABLISHED -j ACCEPT 
   iptables -A OUTPUT -p udp -m state --state NEW,ESTABLISHED -j ACCEPT 
   iptables -A OUTPUT -p icmp -m state --state NEW,ESTABLISHED -j ACCEPT 
@@ -554,14 +557,14 @@ if [ "$PROFILE" = "Level 1" ] || [ "$PROFILE" = "Level 2" ]; then
   iptables -A INPUT -p icmp -m state --state ESTABLISHED -j ACCEPT
   
 
-  # Open inbound ssh(tcp port 22) connections CIS-3.6.5
+  # Open inbound ssh(tcp port 22) connections (3.6.5)
   echo
   echo \*\*\*\* Ensure\ firewall\ rules\ exist\ for\ all\ open\ ports
   iptables -A INPUT -p tcp --dport 22 -m state --state NEW -j ACCEPT
   iptables-save > /etc/sysconfig/iptables
   echo
 
-  # Ensure rsyslog is configured to send logs to a remote log host
+  # Ensure rsyslog is configured to send logs to a remote log host 
   echo
   echo \*\*\*\* Ensure\ rsyslog\ is\ configured\ to\ send\ logs\ to\ a\ remote\ log\ host
   echo Ensure\ rsyslog\ is\ configured\ to\ send\ logs\ to\ a\ remote\ log\ host not configured.
