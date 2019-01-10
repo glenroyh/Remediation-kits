@@ -4,115 +4,118 @@ PROFILE=${1:-Level 1}
 if [ "$PROFILE" = "Level 1" ] || [ "$PROFILE" = "Level 2" ]; then
   echo \*\*\*\* Executing Level 1 profile remediation
 
-  # Ensure mounting of cramfs filesystems is disabled
+  #### Initial Setup ####
+
+  # Ensure mounting of cramfs filesystems is disabled (1.1.1.1)
   echo
   echo \*\*\*\* Ensure\ mounting\ of\ cramfs\ filesystems\ is\ disabled
   modprobe -n -v cramfs | grep "^install /bin/true$" || echo "install cramfs /bin/true" >> /etc/modprobe.d/CIS.conf
   lsmod | egrep "^cramfs\s" && rmmod cramfs
 
-  # Ensure mounting of freevxfs filesystems is disabled
+  # Ensure mounting of freevxfs filesystems is disabled (1.1.1.2)
   echo
   echo \*\*\*\* Ensure\ mounting\ of\ freevxfs\ filesystems\ is\ disabled
   modprobe -n -v freevxfs | grep "^install /bin/true$" || echo "install freevxfs /bin/true" >> /etc/modprobe.d/CIS.conf
   lsmod | egrep "^freevxfs\s" && rmmod freevxfs
 
-  # Ensure mounting of jffs2 filesystems is disabled
+  # Ensure mounting of jffs2 filesystems is disabled (1.1.1.3)
   echo
   echo \*\*\*\* Ensure\ mounting\ of\ jffs2\ filesystems\ is\ disabled
   modprobe -n -v jffs2 | grep "^install /bin/true$" || echo "install jffs2 /bin/true" >> /etc/modprobe.d/CIS.conf
   lsmod | egrep "^jffs2\s" && rmmod jffs2
 
-  # Ensure mounting of hfs filesystems is disabled
+  # Ensure mounting of hfs filesystems is disabled (1.1.1.4)
   echo
   echo \*\*\*\* Ensure\ mounting\ of\ hfs\ filesystems\ is\ disabled
   modprobe -n -v hfs | grep "^install /bin/true$" || echo "install hfs /bin/true" >> /etc/modprobe.d/CIS.conf
   lsmod | egrep "^hfs\s" && rmmod hfs
 
-  # Ensure mounting of hfsplus filesystems is disabled
+  # Ensure mounting of hfsplus filesystems is disabled (1.1.1.5)
   echo
   echo \*\*\*\* Ensure\ mounting\ of\ hfsplus\ filesystems\ is\ disabled
   modprobe -n -v hfsplus | grep "^install /bin/true$" || echo "install hfsplus /bin/true" >> /etc/modprobe.d/CIS.conf
   lsmod | egrep "^hfsplus\s" && rmmod hfsplus
 
-  # Ensure mounting of squashfs filesystems is disabled
+  # Ensure mounting of squashfs filesystems is disabled (1.1.1.6)
   echo
   echo \*\*\*\* Ensure\ mounting\ of\ squashfs\ filesystems\ is\ disabled
   modprobe -n -v squashfs | grep "^install /bin/true$" || echo "install squashfs /bin/true" >> /etc/modprobe.d/CIS.conf
   lsmod | egrep "^squashfs\s" && rmmod squashfs
 
-  # Ensure mounting of udf filesystems is disabled
+  # Ensure mounting of udf filesystems is disabled (1.1.1.7)
   echo
   echo \*\*\*\* Ensure\ mounting\ of\ udf\ filesystems\ is\ disabled
   modprobe -n -v udf | grep "^install /bin/true$" || echo "install udf /bin/true" >> /etc/modprobe.d/CIS.conf
   lsmod | egrep "^udf\s" && rmmod udf
 
-  # Ensure mounting of FAT filesystems is disabled
+  # Ensure mounting of FAT filesystems is disabled (1.1.1.8)
   echo
   echo \*\*\*\* Ensure\ mounting\ of\ FAT\ filesystems\ is\ disabled
   modprobe -n -v vfat | grep "^install /bin/true$" || echo "install vfat /bin/true" >> /etc/modprobe.d/CIS.conf
   lsmod | egrep "^vfat\s" && rmmod vfat
 
-  # Ensure nodev option set on /tmp partition
+  # Ensure nodev option set on /tmp partition (1.1.3)
   echo
   echo \*\*\*\* Ensure\ nodev\ option\ set\ on\ /tmp\ partition
   echo Ensure\ nodev\ option\ set\ on\ /tmp\ partition not configured
 
-  # Ensure nosuid option set on /tmp partition
+  # Ensure nosuid option set on /tmp partition (1.1.4)
   echo
   echo \*\*\*\* Ensure\ nosuid\ option\ set\ on\ /tmp\ partition
   echo Ensure\ nosuid\ option\ set\ on\ /tmp\ partition not configured
 
-  # Ensure noexec option set on /tmp partition
+  # Ensure noexec option set on /tmp partition (1.1.5)
   echo
   echo \*\*\*\* Ensure\ noexec\ option\ set\ on\ /tmp\ partition
   echo Ensure\ noexec\ option\ set\ on\ /tmp\ partition not configured
 
-  # Ensure nodev option set on /var/tmp partition
+  # Ensure nodev option set on /var/tmp partition (1.1.8)
   echo
   echo \*\*\*\* Ensure\ nodev\ option\ set\ on\ /var/tmp\ partition
   echo Ensure\ nodev\ option\ set\ on\ /var/tmp\ partition not configured
 
-  # Ensure nosuid option set on /var/tmp partition
+  # Ensure nosuid option set on /var/tmp partition (1.1.9)
   echo
   echo \*\*\*\* Ensure\ nosuid\ option\ set\ on\ /var/tmp\ partition
   echo Ensure\ nosuid\ option\ set\ on\ /var/tmp\ partition not configured
 
-  # Ensure noexec option set on /var/tmp partition
+  # Ensure noexec option set on /var/tmp partition (1.1.10)
   echo
   echo \*\*\*\* Ensure\ noexec\ option\ set\ on\ /var/tmp\ partition
   echo Ensure\ noexec\ option\ set\ on\ /var/tmp\ partition not configured
 
-  # Ensure nodev option set on /home partition
+  # Ensure nodev option set on /home partition (1.1.14)
   echo
   echo \*\*\*\* Ensure\ nodev\ option\ set\ on\ /home\ partition
   echo Ensure\ nodev\ option\ set\ on\ /home\ partition not configured
 
-  # Ensure nodev option set on /dev/shm partition
+  # Ensure nodev option set on /dev/shm partition (1.1.15)
   echo
   echo \*\*\*\* Ensure\ nodev\ option\ set\ on\ /dev/shm\ partition
   egrep -q "^(\s*\S+\s+)/dev/shm(\s+\S+\s+\S+)(\s+\S+\s+\S+)(\s*#.*)?\s*$" /etc/fstab && sed -ri "s/^(\s*\S+\s+)\/dev\/shm(\s+\S+\s+\S+)(\s+\S+\s+\S+)(\s*#.*)?\s*$/\1\/dev\/shm\2,nodev\3\4/" /etc/fstab
-  # Ensure nosuid option set on /dev/shm partition
+  
+  # Ensure nosuid option set on /dev/shm partition (1.1.16)
   echo
   echo \*\*\*\* Ensure\ nosuid\ option\ set\ on\ /dev/shm\ partition
   egrep -q "^(\s*\S+\s+)/dev/shm(\s+\S+\s+\S+)(\s+\S+\s+\S+)(\s*#.*)?\s*$" /etc/fstab && sed -ri "s/^(\s*\S+\s+)\/dev\/shm(\s+\S+\s+\S+)(\s+\S+\s+\S+)(\s*#.*)?\s*$/\1\/dev\/shm\2,nosuid\3\4/" /etc/fstab
 
-  # Ensure noexec option set on /dev/shm partition
+  # Ensure noexec option set on /dev/shm partition (1.1.17)
   echo
   echo \*\*\*\* Ensure\ noexec\ option\ set\ on\ /dev/shm\ partition
   egrep -q "^(\s*\S+\s+)/dev/shm(\s+\S+\s+\S+)(\s+\S+\s+\S+)(\s*#.*)?\s*$" /etc/fstab && sed -ri "s/^(\s*\S+\s+)\/dev\/shm(\s+\S+\s+\S+)(\s+\S+\s+\S+)(\s*#.*)?\s*$/\1\/dev\/shm\2,noexec\3\4/" /etc/fstab || echo "tmpfs    /dev/shm        tmpfs   defaults,nodev,nosuid,noexec    0 0" >> /etc/fstab
   mount -o remount,noexec,nosuid,nodev /dev/shm
 
-  # Ensure sticky bit is set on all world-writable directories
+  # Ensure sticky bit is set on all world-writable directories (1.1.21)
   echo
   echo \*\*\*\* Ensure\ sticky\ bit\ is\ set\ on\ all\ world-writable\ directories
   df --local -P | awk {'if (NR!=1) print $6'} | xargs -I '{}' find '{}' -xdev -type d \( -perm -0002 -a ! -perm -1000 \) 2>/dev/null | xargs chmod a+t
 
-  # Disable Automounting
+  # Disable Automounting (1.1.22)
   echo
   echo \*\*\*\* Disable\ Automounting
   chkconfig autofs off
 
-  # Ensure gpgcheck is globally activated
+  # Ensure gpgcheck is globally activated (1.2.3)
   echo
   echo \*\*\*\* Ensure\ gpgcheck\ is\ globally\ activated
   egrep -q "^(\s*)gpgcheck\s*=\s*\S+(\s*#.*)?\s*$" /etc/yum.conf && sed -ri "s/^(\s*)gpgcheck\s*=\s*\S+(\s*#.*)?\s*$/\1gpgcheck=1\2/" /etc/yum.conf || echo "gpgcheck=1" >> /etc/yum.conf
@@ -120,22 +123,22 @@ if [ "$PROFILE" = "Level 1" ] || [ "$PROFILE" = "Level 2" ]; then
     egrep -q "^(\s*)gpgcheck\s*=\s*\S+(\s*#.*)?\s*$" $file && sed -ri "s/^(\s*)gpgcheck\s*=\s*\S+(\s*#.*)?\s*$/\1gpgcheck=1\2/" $file || echo "gpgcheck=1" >> $file
   done
 
-  # Ensure AIDE is installed
+  # Ensure AIDE is installed (1.3.1)
   echo
   echo \*\*\*\* Ensure\ AIDE\ is\ installed
   rpm -q aide || yum -y install aide
 
-  # Ensure filesystem integrity is regularly checked
+  # Ensure filesystem integrity is regularly checked (1.3.2)
   echo
   echo \*\*\*\* Ensure\ filesystem\ integrity\ is\ regularly\ checked
   (crontab -u root -l; crontab -u root -l | egrep -q "^0 5 \* \* \* /usr/sbin/aide --check$" || echo "0 5 * * * /usr/sbin/aide --check" ) | crontab -u root -
 
-  # Ensure permissions on bootloader config are configured
+  # Ensure permissions on bootloader config are configured (1.4.1)
   echo
   echo \*\*\*\* Ensure\ permissions\ on\ bootloader\ config\ are\ configured
   chmod g-r-w-x,o-r-w-x /boot/grub/grub.conf
 
-  # Ensure authentication required for single user mode
+  # Ensure authentication required for single user mode (1.4.3)
   echo
   echo \*\*\*\* Ensure\ authentication\ required\ for\ single\ user\ mode
   egrep -q "^[[:space:]]*SINGLE" /etc/sysconfig/init && sed -ri "s/(^[[:space:]]*SINGLE[[:space:]]*=[[:space:]]*).*$/\1\/sbin\/sulogin/" /etc/sysconfig/init || echo "SINGLE=/sbin/sulogin" >> /etc/sysconfig/init
@@ -145,54 +148,54 @@ if [ "$PROFILE" = "Level 1" ] || [ "$PROFILE" = "Level 2" ]; then
   echo \*\*\*\* Ensure\ interactive\ boot\ is\ not\ enabled
   egrep -q "^[[:space:]]*PROMPT" /etc/sysconfig/init && sed -ri "s/(^[[:space:]]*PROMPT[[:space:]]*=[[:space:]]*).*$/\1no/" /etc/sysconfig/init || echo "PROMPT=no" >> /etc/sysconfig/init
 
-  # Ensure core dumps are restricted
+  # Ensure core dumps are restricted (1.5.1)
   echo
   echo \*\*\*\* Ensure\ core\ dumps\ are\ restricted
   egrep -q "^(\s*)\*\s+hard\s+core\s+\S+(\s*#.*)?\s*$" /etc/security/limits.conf && sed -ri "s/^(\s*)\*\s+hard\s+core\s+\S+(\s*#.*)?\s*$/\1* hard core 0\2/" /etc/security/limits.conf || echo "* hard core 0" >> /etc/security/limits.conf
   echo Ensure\ core\ dumps\ are\ restricted not configured.
   egrep -q "^(\s*)fs.suid_dumpable\s*=\s*\S+(\s*#.*)?\s*$" /etc/sysctl.conf && sed -ri "s/^(\s*)fs.suid_dumpable\s*=\s*\S+(\s*#.*)?\s*$/\1fs.suid_dumpable = 0\2/" /etc/sysctl.conf || echo "fs.suid_dumpable = 0" >> /etc/sysctl.conf
 
-  # Ensure XD/NX support is enabled
+  # Ensure XD/NX support is enabled (1.5.2)
   echo
   echo \*\*\*\* Ensure\ XD/NX\ support\ is\ enabled
   echo Ensure\ XD/NX\ support\ is\ enabled not configured.
 
-  # Ensure address space layout randomization (ASLR) is enabled
+  # Ensure address space layout randomization (ASLR) is enabled (1.5.3)
   echo
   echo \*\*\*\* Ensure\ address\ space\ layout\ randomization\ \(ASLR\)\ is\ enabled
   egrep -q "^(\s*)kernel.randomize_va_space\s*=\s*\S+(\s*#.*)?\s*$" /etc/sysctl.conf && sed -ri "s/^(\s*)kernel.randomize_va_space\s*=\s*\S+(\s*#.*)?\s*$/\1kernel.randomize_va_space = 2\2/" /etc/sysctl.conf || echo "kernel.randomize_va_space = 2" >> /etc/sysctl.conf
 
-  # Ensure prelink is disabled
+  # Ensure prelink is disabled (1.5.4)
   echo
   echo \*\*\*\* Ensure\ prelink\ is\ disabled
   rpm -q prelink && yum -y remove prelink
 
-  # Ensure message of the day is configured properly
+  # Ensure message of the day is configured properly (1.7.1.1)
   echo
   echo \*\*\*\* Ensure\ message\ of\ the\ day\ is\ configured\ properly
   sed -ri 's/(\\v|\\r|\\m|\\s)//g' /etc/motd
 
-  # Ensure local login warning banner is configured properly
+  # Ensure local login warning banner is configured properly (1.7.1.2)
   echo
   echo \*\*\*\* Ensure\ local\ login\ warning\ banner\ is\ configured\ properly
   echo "Authorized uses only. All activity may be monitored and reported." > /etc/issue
 
-  # Ensure remote login warning banner is configured properly
+  # Ensure remote login warning banner is configured properly (1.7.1.3)
   echo
   echo \*\*\*\* Ensure\ remote\ login\ warning\ banner\ is\ configured\ properly
   echo "Authorized uses only. All activity may be monitored and reported." > /etc/issue.net
 
-  # Ensure permissions on /etc/motd are configured
+  # Ensure permissions on /etc/motd are configured (1.7.1.4)
   echo
   echo \*\*\*\* Ensure\ permissions\ on\ /etc/motd\ are\ configured
   chmod -t,u+r+w-x-s,g+r-w-x-s,o+r-w-x /etc/motd
 
-  # Ensure permissions on /etc/issue are configured
+  # Ensure permissions on /etc/issue are configured (1.7.1.5)
   echo
   echo \*\*\*\* Ensure\ permissions\ on\ /etc/issue\ are\ configured
   chmod -t,u+r+w-x-s,g+r-w-x-s,o+r-w-x /etc/issue
 
-  # Ensure permissions on /etc/issue.net are configured
+  # Ensure permissions on /etc/issue.net are configured (1.7.1.6)
   echo
   echo \*\*\*\* Ensure\ permissions\ on\ /etc/issue.net\ are\ configured
   chmod -t,u+r+w-x-s,g+r-w-x-s,o+r-w-x /etc/issue.net
@@ -957,67 +960,67 @@ fi
 if [ "$PROFILE" = "Level 2" ]; then
   echo \*\*\*\* Executing Level 2 profile remediation
 
-  # Ensure separate partition exists for /tmp
+  # Ensure separate partition exists for /tmp (1.1.2)
   echo
   echo \*\*\*\* Ensure\ separate\ partition\ exists\ for\ /tmp
   echo Ensure\ separate\ partition\ exists\ for\ /tmp not configured.
 
-  # Ensure separate partition exists for /var
+  # Ensure separate partition exists for /var (1.1.6)
   echo
   echo \*\*\*\* Ensure\ separate\ partition\ exists\ for\ /var
   echo Ensure\ separate\ partition\ exists\ for\ /var not configured.
 
-  # Ensure separate partition exists for /var/tmp
+  # Ensure separate partition exists for /var/tmp (1.1.7)
   echo
   echo \*\*\*\* Ensure\ separate\ partition\ exists\ for\ /var/tmp
   echo Ensure\ separate\ partition\ exists\ for\ /var/tmp not configured.
 
-  # Ensure separate partition exists for /var/log
+  # Ensure separate partition exists for /var/log (1.1.11)
   echo
   echo \*\*\*\* Ensure\ separate\ partition\ exists\ for\ /var/log
   echo Ensure\ separate\ partition\ exists\ for\ /var/log not configured.
 
-  # Ensure separate partition exists for /var/log/audit
+  # Ensure separate partition exists for /var/log/audit (1.1.12)
   echo
   echo \*\*\*\* Ensure\ separate\ partition\ exists\ for\ /var/log/audit
   echo Ensure\ separate\ partition\ exists\ for\ /var/log/audit not configured.
 
-  # Ensure separate partition exists for /home
+  # Ensure separate partition exists for /home (1.1.13)
   echo
   echo \*\*\*\* Ensure\ separate\ partition\ exists\ for\ /home
   echo Ensure\ separate\ partition\ exists\ for\ /home not configured.
 
-  # Ensure SELinux is not disabled in bootloader configuration
+  # Ensure SELinux is not disabled in bootloader configuration (1.6.1.1)
   echo
   echo \*\*\*\* Ensure\ SELinux\ is\ not\ disabled\ in\ bootloader\ configuration
   echo Ensure\ SELinux\ is\ not\ disabled\ in\ bootloader\ configuration not configured.
 
-  # Ensure the SELinux state is enforcing
+  # Ensure the SELinux state is enforcing (1.6.1.2)
   echo
   echo \*\*\*\* Ensure\ the\ SELinux\ state\ is\ enforcing
   echo Ensure\ the\ SELinux\ state\ is\ enforcing not configured.
 
-  # Ensure SELinux policy is configured
+  # Ensure SELinux policy is configured (1.6.1.3)
   echo
   echo \*\*\*\* Ensure\ SELinux\ policy\ is\ configured
   echo Ensure\ SELinux\ policy\ is\ configured not configured.
 
-  # Ensure SETroubleshoot is not installed
+  # Ensure SETroubleshoot is not installed (1.6.1.4)
   echo
   echo \*\*\*\* Ensure\ SETroubleshoot\ is\ not\ installed
   rpm -q setroubleshoot && yum -y remove setroubleshoot
 
-  # Ensure the MCS Translation Service (mcstrans) is not installed
+  # Ensure the MCS Translation Service (mcstrans) is not installed (1.6.1.5)
   echo
   echo \*\*\*\* Ensure\ the\ MCS\ Translation\ Service\ \(mcstrans\)\ is\ not\ installed
   rpm -q mcstrans && yum -y remove mcstrans
 
-  # Ensure no unconfined daemons exist
+  # Ensure no unconfined daemons exist (1.6.1.6)
   echo
   echo \*\*\*\* Ensure\ no\ unconfined\ daemons\ exist
   echo Ensure\ no\ unconfined\ daemons\ exist Linux custom object not configured.
 
-  # Ensure SELinux is installed
+  # Ensure SELinux is installed(1.6.2)
   echo
   echo \*\*\*\* Ensure\ SELinux\ is\ installed
   rpm -q libselinux || yum -y install libselinux
@@ -1081,7 +1084,7 @@ if [ "$PROFILE" = "Level 2" ]; then
   # Ensure events that modify the system's Mandatory Access Controls are collected
   echo
   echo \*\*\*\* Ensure\ events\ that\ modify\ the\ system\'s\ Mandatory\ Access\ Controls\ are\ collected
-  egrep "^-w\s+/etc/selinux/\s+-p\s+wa\s+-k\s+MAC-policy\s*$" /etc/audit/audit.rules || echo "-w /etc/selinux/ -p wa -k MAC-policy" >> /etc/audit/audit.rules
+  egrep "^-w\s+/etc//\s+-p\s+wa\s+-k\s+MAC-policy\s*$" /etc/audit/audit.rules || echo "-w /etc/selinux/ -p wa -k MAC-policy" >> /etc/audit/audit.rules
 
   # Ensure login and logout events are collected
   echo
