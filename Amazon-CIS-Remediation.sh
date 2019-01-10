@@ -564,38 +564,38 @@ if [ "$PROFILE" = "Level 1" ] || [ "$PROFILE" = "Level 2" ]; then
   iptables-save > /etc/sysconfig/iptables
   echo
 
-  # Ensure rsyslog is configured to send logs to a remote log host 
+  # Ensure rsyslog is configured to send logs to a remote log host (4.2.1.4)
   echo
   echo \*\*\*\* Ensure\ rsyslog\ is\ configured\ to\ send\ logs\ to\ a\ remote\ log\ host
   echo Ensure\ rsyslog\ is\ configured\ to\ send\ logs\ to\ a\ remote\ log\ host not configured.
 
-  # Ensure syslog-ng service is enabled
+  # Ensure syslog-ng service is enabled (4.2.2.1)
   echo
   echo \*\*\*\* Ensure\ syslog-ng\ service\ is\ enabled
   rpm -q syslog-ng && chkconfig syslog-ng on
 
-  # Ensure syslog-ng default file permissions configured
+  # Ensure syslog-ng default file permissions configured (4.2.2.3)
   echo
   echo \*\*\*\* Ensure\ syslog-ng\ default\ file\ permissions\ configured
   echo Ensure\ syslog-ng\ default\ file\ permissions\ configured not configured.
 
-  # Ensure rsyslog or syslog-ng is installed
+  # Ensure rsyslog or syslog-ng is installed (4.2.3)
   echo
   echo \*\*\*\* Ensure\ rsyslog\ or\ syslog-ng\ is\ installed
   rpm -q rsyslog || rpm -q syslog-ng || yum -y install rsyslog
 
-  # Ensure rsyslog Service is enabled
+  # Ensure rsyslog Service is enabled (4.2.1.1)
   echo
   echo \*\*\*\* Ensure\ rsyslog\ Service\ is\ enabled
   rpm -q rsyslog && chkconfig rsyslog on
   
-  # Ensure rsyslog default file permissions configured
+  # Ensure rsyslog default file permissions configured (4.2.1.3)
   echo
   echo \*\*\*\* Ensure\ rsyslog\ default\ file\ permissions\ configured
   echo Ensure\ rsyslog\ default\ file\ permissions\ configured not configured.
   egrep -q '^(\$)FileCreateMode(\s.*)0[1,5,6][1,4]0$' /etc/rsyslog.conf && sed -ri 's/^\$FileCreateMode\s*.*/\$FileCreateMode 0640/' /etc/rsyslog.conf || echo "\$FileCreateMode 0640" >> /etc/rsyslog.conf
 
-  # Ensure permissions on all logfiles are configured
+  # Ensure permissions on all logfiles are configured (4.2.4)
   echo
   echo \*\*\*\* Ensure\ permissions\ on\ all\ logfiles\ are\ configured
   chmod -R g-w-x,o-r-w-x /var/log/.*
@@ -1025,40 +1025,40 @@ if [ "$PROFILE" = "Level 2" ]; then
   echo \*\*\*\* Ensure\ no\ unconfined\ daemons\ exist
   echo Ensure\ no\ unconfined\ daemons\ exist Linux custom object not configured.
 
-  # Ensure SELinux is installed(1.6.2)
+  # Ensure SELinux is installed (1.6.2)
   echo
   echo \*\*\*\* Ensure\ SELinux\ is\ installed
   rpm -q libselinux || yum -y install libselinux
 
-  # Ensure audit log storage size is configured
+  # Ensure audit log storage size is configured (4.1.1.1)
   echo
   echo \*\*\*\* Ensure\ audit\ log\ storage\ size\ is\ configured
   echo Ensure\ audit\ log\ storage\ size\ is\ configured not configured.
 
-  # Ensure system is disabled when audit logs are full
+  # Ensure system is disabled when audit logs are full (4.1.1.2)
   echo
   echo \*\*\*\* Ensure\ system\ is\ disabled\ when\ audit\ logs\ are\ full
   egrep -q "^(\s*)space_left_action\s*=\s*\S+(\s*#.*)?\s*$" /etc/audit/auditd.conf && sed -ri "s/^(\s*)space_left_action\s*=\s*\S+(\s*#.*)?\s*$/\1space_left_action = email\2/" /etc/audit/auditd.conf || echo "space_left_action = email" >> /etc/audit/auditd.conf
   egrep -q "^(\s*)action_mail_acct\s*=\s*\S+(\s*#.*)?\s*$" /etc/audit/auditd.conf && sed -ri "s/^(\s*)action_mail_acct\s*=\s*\S+(\s*#.*)?\s*$/\1action_mail_acct = root\2/" /etc/audit/auditd.conf || echo "action_mail_acct = root" >> /etc/audit/auditd.conf
   egrep -q "^(\s*)admin_space_left_action\s*=\s*\S+(\s*#.*)?\s*$" /etc/audit/auditd.conf && sed -ri "s/^(\s*)admin_space_left_action\s*=\s*\S+(\s*#.*)?\s*$/\1admin_space_left_action = halt\2/" /etc/audit/auditd.conf || echo "admin_space_left_action = halt" >> /etc/audit/auditd.conf
 
-  # Ensure audit logs are not automatically deleted
+  # Ensure audit logs are not automatically deleted (4.1.1.3)
   echo
   echo \*\*\*\* Ensure\ audit\ logs\ are\ not\ automatically\ deleted
   egrep -q "^(\s*)max_log_file_action\s*=\s*\S+(\s*#.*)?\s*$" /etc/audit/auditd.conf && sed -ri "s/^(\s*)max_log_file_action\s*=\s*\S+(\s*#.*)?\s*$/\1max_log_file_action = keep_logs\2/" /etc/audit/auditd.conf || echo "max_log_file_action = keep_logs" >> /etc/audit/auditd.conf
 
-  # Ensure auditd service is enabled
+  # Ensure auditd service is enabled (4.1.2)
   echo
   echo \*\*\*\* Ensure\ auditd\ service\ is\ enabled
   chkconfig auditd on
 
-  # Ensure auditing for processes that start prior to auditd is enabled
+  # Ensure auditing for processes that start prior to auditd is enabled (4.1.3)
   echo
   echo \*\*\*\* Ensure\ auditing\ for\ processes\ that\ start\ prior\ to\ auditd\ is\ enabled
   sed -ri '/^[[:space:]]*kernel([[:space:]]+[^[:space:]#]+)+[[:space:]]+audit=[[:digit:]]+/! { s/^((\s*)kernel(\s+[^[:space:]#]+)+)(\s*#.*)?\s*$/\1 audit=1\4/ }' /boot/grub/grub.conf
   sed -ri 's/^(\s*kernel(\s+[^[:space:]#]+)+\s+)audit=[[:digit:]]+/\1audit=1/' /boot/grub/grub.conf
 
-  # Ensure events that modify date and time information are collected
+  # Ensure events that modify date and time information are collected (4.1.4)
   echo
   echo \*\*\*\* Ensure\ events\ that\ modify\ date\ and\ time\ information\ are\ collected
   egrep "^-a\s+(always,exit|exit,always)\s+-F\s+arch=b32\s+-S\s+adjtimex\s+-S\s+settimeofday\s+-S\s+stime\s+-k\s+time-change\s*$" /etc/audit/audit.rules || echo "-a always,exit -F arch=b32 -S adjtimex -S settimeofday -S stime -k time-change" >> /etc/audit/audit.rules
@@ -1067,7 +1067,7 @@ if [ "$PROFILE" = "Level 2" ]; then
   uname -p | grep -q 'x86_64' && egrep "^-a\s+(always,exit|exit,always)\s+-F\s+arch=b64\s+-S\s+adjtimex\s+-S\s+settimeofday\s+-k\s+time-change\s*$" /etc/audit/audit.rules || echo "-a always,exit -F arch=b64 -S adjtimex -S settimeofday -k time-change" >> /etc/audit/audit.rules
   uname -p | grep -q 'x86_64' && egrep "^-a\s+(always,exit|exit,always)\s+-F\s+arch=b64\s+-S\s+clock_settime\s+-k\s+time-change\s*$" /etc/audit/audit.rules || echo "-a always,exit -F arch=b64 -S clock_settime -k time-change" >> /etc/audit/audit.rules
 
-  # Ensure events that modify user/group information are collected
+  # Ensure events that modify user/group information are collected (4.1.5)
   echo
   echo \*\*\*\* Ensure\ events\ that\ modify\ user/group\ information\ are\ collected
   egrep "^-w\s+/etc/group\s+-p\s+wa\s+-k\s+identity\s*$" /etc/audit/audit.rules || echo "-w /etc/group -p wa -k identity" >> /etc/audit/audit.rules
@@ -1076,7 +1076,7 @@ if [ "$PROFILE" = "Level 2" ]; then
   egrep "^-w\s+/etc/shadow\s+-p\s+wa\s+-k\s+identity\s*$" /etc/audit/audit.rules || echo "-w /etc/shadow -p wa -k identity" >> /etc/audit/audit.rules
   egrep "^-w\s+/etc/security/opasswd\s+-p\s+wa\s+-k\s+identity\s*$" /etc/audit/audit.rules || echo "-w /etc/security/opasswd -p wa -k identity" >> /etc/audit/audit.rules
 
-  # Ensure events that modify the system's network environment are collected
+  # Ensure events that modify the system's network environment are collected (4.1.6)
   echo
   echo \*\*\*\* Ensure\ events\ that\ modify\ the\ system\'s\ network\ environment\ are\ collected
   egrep "^-a\s+(always,exit|exit,always)\s+-F\s+arch=b32\s+-S\s+sethostname\s+-S\s+setdomainname\s+-k\s+system-locale\s*$" /etc/audit/audit.rules || echo "-a always,exit -F arch=b32 -S sethostname -S setdomainname -k system-locale" >> /etc/audit/audit.rules
@@ -1086,25 +1086,25 @@ if [ "$PROFILE" = "Level 2" ]; then
   egrep "^-w\s+/etc/sysconfig/network\s+-p\s+wa\s+-k\s+system-locale\s*$" /etc/audit/audit.rules || echo "-w /etc/sysconfig/network -p wa -k system-locale" >> /etc/audit/audit.rules
   uname -p | grep -q 'x86_64' && egrep "^-a\s+(always,exit|exit,always)\s+-F\s+arch=b64\s+-S\s+sethostname\s+-S\s+setdomainname\s+-k\s+system-locale\s*$" /etc/audit/audit.rules || echo "-a always,exit -F arch=b64 -S sethostname -S setdomainname -k system-locale" >> /etc/audit/audit.rules
 
-  # Ensure events that modify the system's Mandatory Access Controls are collected
+  # Ensure events that modify the system's Mandatory Access Controls are collected (4.1.7)
   echo
   echo \*\*\*\* Ensure\ events\ that\ modify\ the\ system\'s\ Mandatory\ Access\ Controls\ are\ collected
   egrep "^-w\s+/etc//\s+-p\s+wa\s+-k\s+MAC-policy\s*$" /etc/audit/audit.rules || echo "-w /etc/selinux/ -p wa -k MAC-policy" >> /etc/audit/audit.rules
 
-  # Ensure login and logout events are collected
+  # Ensure login and logout events are collected (4.1.8)
   echo
   echo \*\*\*\* Ensure\ login\ and\ logout\ events\ are\ collected
   egrep "^-w\s+/var/run/faillock/\s+-p\s+wa\s+-k\s+logins\s*$" /etc/audit/audit.rules || echo "-w /var/run/faillock/ -p wa -k logins" >> /etc/audit/audit.rules
   egrep "^-w\s+/var/log/lastlog\s+-p\s+wa\s+-k\s+logins\s*$" /etc/audit/audit.rules || echo "-w /var/log/lastlog -p wa -k logins" >> /etc/audit/audit.rules
 
-  # Ensure session initiation information is collected
+  # Ensure session initiation information is collected (4.1.9)
   echo
   echo \*\*\*\* Ensure\ session\ initiation\ information\ is\ collected
   egrep "^-w\s+/var/run/utmp\s+-p\s+wa\s+-k\s+session\s*$" /etc/audit/audit.rules || echo "-w /var/run/utmp -p wa -k session" >> /etc/audit/audit.rules
   egrep "^-w\s+/var/log/wtmp\s+-p\s+wa\s+-k\s+session\s*$" /etc/audit/audit.rules || echo "-w /var/log/wtmp -p wa -k session" >> /etc/audit/audit.rules
   egrep "^-w\s+/var/log/btmp\s+-p\s+wa\s+-k\s+session\s*$" /etc/audit/audit.rules || echo "-w /var/log/btmp -p wa -k session" >> /etc/audit/audit.rules
 
-  # Ensure discretionary access control permission modification events are collected
+  # Ensure discretionary access control permission modification events are collected (4.1.10)
   echo
   echo \*\*\*\* Ensure\ discretionary\ access\ control\ permission\ modification\ events\ are\ collected
   egrep "^-a\s+(always,exit|exit,always)\s+-F\s+arch=b32\s+-S\s+chmod\s+-S\s+fchmod\s+-S\s+fchmodat\s+-F\s+auid>=500\s+-F\s+auid!=4294967295\s+-k\s+perm_mod\s*$" /etc/audit/audit.rules || echo "-a always,exit -F arch=b32 -S chmod -S fchmod -S fchmodat -F auid>=500 -F auid!=4294967295 -k perm_mod" >> /etc/audit/audit.rules
@@ -1114,7 +1114,7 @@ if [ "$PROFILE" = "Level 2" ]; then
   uname -p | grep -q 'x86_64' && egrep "^-a\s+(always,exit|exit,always)\s+-F\s+arch=b64\s+-S\s+chown\s+-S\s+fchown\s+-S\s+fchownat\s+-S\s+lchown\s+-F\s+auid>=500\s+-F\s+auid!=4294967295\s+-k\s+perm_mod\s*$" /etc/audit/audit.rules || echo "-a always,exit -F arch=b64 -S chown -S fchown -S fchownat -S lchown -F auid>=500 -F auid!=4294967295 -k perm_mod" >> /etc/audit/audit.rules
   uname -p | grep -q 'x86_64' && egrep "^-a\s+(always,exit|exit,always)\s+-F\s+arch=b64\s+-S\s+setxattr\s+-S\s+lsetxattr\s+-S\s+fsetxattr\s+-S\s+removexattr\s+-S\s+lremovexattr\s+-S\s+fremovexattr\s+-F\s+auid>=500\s+-F\s+auid!=4294967295\s+-k\s+perm_mod\s*$" /etc/audit/audit.rules || echo "-a always,exit -F arch=b64 -S setxattr -S lsetxattr -S fsetxattr -S removexattr -S lremovexattr -S fremovexattr -F auid>=500 -F auid!=4294967295 -k perm_mod" >> /etc/audit/audit.rules
 
-  # Ensure unsuccessful unauthorized file access attempts are collected
+  # Ensure unsuccessful unauthorized file access attempts are collected (4.1.11)
   echo
   echo \*\*\*\* Ensure\ unsuccessful\ unauthorized\ file\ access\ attempts\ are\ collected
   egrep "^-a\s+(always,exit|exit,always)\s+-F\s+arch=b32\s+-S\s+creat\s+-S\s+open\s+-S\s+openat\s+-S\s+truncate\s+-S\s+ftruncate\s+-F\s+exit=-EACCES\s+-F\s+auid>=500\s+-F\s+auid!=4294967295\s+-k\s+access\s*$" /etc/audit/audit.rules || echo "-a always,exit -F arch=b32 -S creat -S open -S openat -S truncate -S ftruncate -F exit=-EACCES -F auid>=500 -F auid!=4294967295 -k access" >> /etc/audit/audit.rules
@@ -1122,35 +1122,35 @@ if [ "$PROFILE" = "Level 2" ]; then
   uname -p | grep -q 'x86_64' && egrep "^-a\s+(always,exit|exit,always)\s+-F\s+arch=b64\s+-S\s+creat\s+-S\s+open\s+-S\s+openat\s+-S\s+truncate\s+-S\s+ftruncate\s+-F\s+exit=-EACCES\s+-F\s+auid>=500\s+-F\s+auid!=4294967295\s+-k\s+access\s*$" /etc/audit/audit.rules || echo "-a always,exit -F arch=b64 -S creat -S open -S openat -S truncate -S ftruncate -F exit=-EACCES -F auid>=500 -F auid!=4294967295 -k access" >> /etc/audit/audit.rules
   uname -p | grep -q 'x86_64' && egrep "^-a\s+(always,exit|exit,always)\s+-F\s+arch=b64\s+-S\s+creat\s+-S\s+open\s+-S\s+openat\s+-S\s+truncate\s+-S\s+ftruncate\s+-F\s+exit=-EPERM\s+-F\s+auid>=500\s+-F\s+auid!=4294967295\s+-k\s+access\s*$" /etc/audit/audit.rules || echo "-a always,exit -F arch=b64 -S creat -S open -S openat -S truncate -S ftruncate -F exit=-EPERM -F auid>=500 -F auid!=4294967295 -k access" >> /etc/audit/audit.rules
 
-  # Ensure use of privileged commands is collected
+  # Ensure use of privileged commands is collected (4.1.12)
   echo
   echo \*\*\*\* Ensure\ use\ of\ privileged\ commands\ is\ collected
   for file in `find / -xdev \( -perm -4000 -o -perm -2000 \) -type f`; do egrep -q "^\s*-a\s+(always,exit|exit,always)\s+-F\s+path=$file\s+-F\s+perm=x\s+-F\s+auid>=500\s+-F\s+auid!=4294967295\s+-k\s+privileged\s*(#.*)?$" /etc/audit/audit.rules || echo "-a always,exit -F path=$file -F perm=x -F auid>=500 -F auid!=4294967295 -k privileged" >> /etc/audit/audit.rules; done
 
-  # Ensure successful file system mounts are collected
+  # Ensure successful file system mounts are collected (4.1.13)
   echo
   echo \*\*\*\* Ensure\ successful\ file\ system\ mounts\ are\ collected
   egrep "^-a\s+(always,exit|exit,always)\s+-F\s+arch=b32\s+-S\s+mount\s+-F\s+auid>=500\s+-F\s+auid!=4294967295\s+-k\s+mounts\s*$" /etc/audit/audit.rules || echo "-a always,exit -F arch=b32 -S mount -F auid>=500 -F auid!=4294967295 -k mounts" >> /etc/audit/audit.rules
   uname -p | grep -q 'x86_64' && egrep "^-a\s+(always,exit|exit,always)\s+-F\s+arch=b64\s+-S\s+mount\s+-F\s+auid>=500\s+-F\s+auid!=4294967295\s+-k\s+mounts\s*$" /etc/audit/audit.rules || echo "-a always,exit -F arch=b64 -S mount -F auid>=500 -F auid!=4294967295 -k mounts" >> /etc/audit/audit.rules
 
-  # Ensure file deletion events by users are collected
+  # Ensure file deletion events by users are collected (4.1.14)
   echo
   echo \*\*\*\* Ensure\ file\ deletion\ events\ by\ users\ are\ collected
   egrep "^-a\s+(always,exit|exit,always)\s+-F\s+arch=b32\s+-S\s+unlink\s+-S\s+unlinkat\s+-S\s+rename\s+-S\s+renameat\s+-F\s+auid>=500\s+-F\s+auid!=4294967295\s+-k\s+delete\s*$" /etc/audit/audit.rules || echo "-a always,exit -F arch=b32 -S unlink -S unlinkat -S rename -S renameat -F auid>=500 -F auid!=4294967295 -k delete" >> /etc/audit/audit.rules
   uname -p | grep -q 'x86_64' && egrep "^-a\s+(always,exit|exit,always)\s+-F\s+arch=b64\s+-S\s+unlink\s+-S\s+unlinkat\s+-S\s+rename\s+-S\s+renameat\s+-F\s+auid>=500\s+-F\s+auid!=4294967295\s+-k\s+delete\s*$" /etc/audit/audit.rules || echo "-a always,exit -F arch=b64 -S unlink -S unlinkat -S rename -S renameat -F auid>=500 -F auid!=4294967295 -k delete" >> /etc/audit/audit.rules
 
-  # Ensure changes to system administration scope (sudoers) is collected
+  # Ensure changes to system administration scope (sudoers) is collected (4.1.15)
   echo
   echo \*\*\*\* Ensure\ changes\ to\ system\ administration\ scope\ \(sudoers\)\ is\ collected
   egrep "^-w\s+/etc/sudoers\s+-p\s+wa\s+-k\s+scope\s*$" /etc/audit/audit.rules || echo "-w /etc/sudoers -p wa -k scope" >> /etc/audit/audit.rules
   egrep "^-w\s+/etc/sudoers.d\s+-p\s+wa\s+-k\s+scope\s*$" /etc/audit/audit.rules || echo "-w /etc/sudoers.d -p wa -k scope" >> /etc/audit/audit.rules
 
-  # Ensure system administrator actions (sudolog) are collected
+  # Ensure system administrator actions (sudolog) are collected (4.1.16)
   echo
   echo \*\*\*\* Ensure\ system\ administrator\ actions\ \(sudolog\)\ are\ collected
   egrep "^-w\s+/var/log/sudo.log\s+-p\s+wa\s+-k\s+actions\s*$" /etc/audit/audit.rules || echo "-w /var/log/sudo.log -p wa -k actions" >> /etc/audit/audit.rules
 
-  # Ensure kernel module loading and unloading is collected
+  # Ensure kernel module loading and unloading is collected (4.1.17)
   echo
   echo \*\*\*\* Ensure\ kernel\ module\ loading\ and\ unloading\ is\ collected
   egrep "^-w\s+/sbin/insmod\s+-p\s+x\s+-k\s+modules\s*$" /etc/audit/audit.rules || echo "-w /sbin/insmod -p x -k modules" >> /etc/audit/audit.rules
@@ -1159,7 +1159,7 @@ if [ "$PROFILE" = "Level 2" ]; then
   uname -p | grep -q 'x86_64' || egrep "^-a\s+(always,exit|exit,always)\s+arch=b32\s+-S\s+init_module\s+-S\s+delete_module\s+-k\s+modules\s*$" /etc/audit/audit.rules || echo "-a always,exit arch=b32 -S init_module -S delete_module -k modules" >> /etc/audit/audit.rules
   uname -p | grep -q 'x86_64' && egrep "^-a\s+(always,exit|exit,always)\s+arch=b64\s+-S\s+init_module\s+-S\s+delete_module\s+-k\s+modules\s*$" /etc/audit/audit.rules || echo "-a always,exit arch=b64 -S init_module -S delete_module -k modules" >> /etc/audit/audit.rules
 
-  # Ensure the audit configuration is immutable
+  # Ensure the audit configuration is immutable (4.1.18)
   echo
   echo \*\*\*\* Ensure\ the\ audit\ configuration\ is\ immutable
   egrep "^-e\s+2\s*$" /etc/audit/audit.rules || echo "-e 2" >> /etc/audit/audit.rules
